@@ -49,4 +49,20 @@ BB_DISKMON_DIRS = "\
 
 CONF_VERSION = "2"
 
-# HOSTTOOLS += "docker iptables"
+IMAGE_INSTALL:append = " greengrass-bin"
+IMAGE_INSTALL:append = " strace"
+DISTRO_FEATURES:append = " seccomp"
+DISTRO_FEATURES:append = " systemd"
+DISTRO_FEATURES:append = " virtualization"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+VIRTUAL-RUNTIME_initscripts = ""
+
+
+AWS_IOT_GG = "openssh \
+              ntp \
+              docker \
+              python3-docker-compose \
+              "
+
+IMAGE_INSTALL:append = " ${AWS_IOT_GG}"
