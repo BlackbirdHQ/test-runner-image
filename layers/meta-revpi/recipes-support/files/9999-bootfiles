@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#
+# Script which applies a quirk to revpi-core-3's config.txt to remove an incompatible dtoverlay setting
+#
+
+set -o errexit
+
+printf "[INFO] Applying quirk to remove dtoverlay=mmc from config.txt"
+sed "/dtoverlay=mmc/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+
+printf "[INFO] Checking and applying if needed the quirks for removing older kunbus overlay"
+sed "/Enable RevPi specific pins for i2c/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+sed "/dtoverlay=i2c1-bcm2708,sda1_pin=44,scl1_pin=45,pin_func=6/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+sed "/Enable RevPi realtime clock/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+sed "/dtoverlay=i2c-rtc,pcf2127/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+sed "/Enable RevPi specific pins for spi/d" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+sed "s/dtoverlay=kunbus/dtoverlay=revpi-core/g" ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt > ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new
+
+sync -f /mnt/boot
+mv ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt.new ${DEPLOYDIR}/${BOOTFILES_DIR_NAME}/config.txt
+sync -f /mnt/boot
+printf " done.\n"
