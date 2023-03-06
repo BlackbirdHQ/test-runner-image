@@ -53,9 +53,18 @@ BB_DISKMON_DIRS = "\
 
 CONF_VERSION = "2"
 
+GGV2_REGION = "eu-west-1"
+GGV2_ROLEALIAS = "GreengrassCoreTokenExchangeRoleAlias"
+
+IMAGE_INSTALL:append = " linux-firmware-bcm43143"
+IMAGE_INSTALL:append = " networkmanager"
+IMAGE_INSTALL:append = " networkmanager-nmcli"
 IMAGE_INSTALL:append = " greengrass-bin"
 IMAGE_INSTALL:append = " strace"
+IMAGE_INSTALL:append = " aws-iot-securetunneling-localproxy"
+IMAGE_INSTALL:append = " amazon-kvs-producer-sdk-cpp"
 DISTRO_FEATURES:append = " seccomp"
+DISTRO_FEATURES:append = " wifi"
 DISTRO_FEATURES:append = " systemd"
 DISTRO_FEATURES:append = " virtualization"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
@@ -70,3 +79,13 @@ AWS_IOT_GG = "openssh \
               "
 
 IMAGE_INSTALL:append = " ${AWS_IOT_GG}"
+
+
+# Allow Greengrass user to run Docker container components 
+INHERIT += "extrausers"
+EXTRA_USERS_PARAMS = " \
+    usermod -aG docker ggc_user \
+"
+
+# Allow running containerized Lambda functions in Greengrass
+CMDLINE += " cgroup_enable=memory cgroup_memory=1 systemd.unified_cgroup_hierarchy=0"
