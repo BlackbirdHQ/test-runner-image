@@ -1,23 +1,17 @@
-# inherit kernel-resin
-
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
+# SRC_URI:append = " file://defconfig "
 SRC_URI:append = " file://linux-kernel.cfg "
-KERNEL_CONFIG_FRAGMENTS:append = "${WORKDIR}/linux-kernel.cfg "
-
 
 # Set console accordingly to build type
 CMDLINE = "dwc_otg.lpm_enable=0 rootwait"
 CMDLINE += "${@bb.utils.contains('DISTRO_FEATURES','osdev-image',"console=tty1 console=serial0,115200"," vt.global_cursor_default=0 console=null",d)}"
 CMDLINE_DEBUG = ""
 
+IMAGE_INSTALL += "rt-tests hwlatdetect"
+
 KERNEL_MODULE_PROBECONF += "rtl8192cu"
 module_conf:rtl8192cu = "blacklist rtl8192cu"
-
-# revpi-connect was previously added on overlay2,
-# so only the core 3 needs to include this module
-# further.
-# BALENA_CONFIGS:append:revpi-core-3 = " aufs"
 
 python do_overlays() {
     import glob, re
