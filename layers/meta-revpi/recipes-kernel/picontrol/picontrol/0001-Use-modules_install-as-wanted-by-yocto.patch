@@ -16,10 +16,10 @@ index eedf217..7fb1a8a 100644
 +++ b/Makefile
 @@ -49,6 +49,9 @@ endif
  all: compiletime.h
- 	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE="$(CROSS_COMPILE)" -C $(KDIR) M=$(PWD)  modules
+ 	$(MAKE) -C $(KDIR) M=$(PWD)  modules
  
 +modules_install:
-+	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE="$(CROSS_COMPILE)" -C $(KDIR) M=$(PWD)  modules_install
++	$(MAKE) -C $(KDIR) M=$(PWD)  modules_install
 +
  compiletime.h:
  	echo "#define COMPILETIME \""`date`"\"" > compiletime.h

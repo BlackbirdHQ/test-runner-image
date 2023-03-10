@@ -1,0 +1,25 @@
+From 63e9d6388325f5b9053cd6cd09cc1979bea29a68 Mon Sep 17 00:00:00 2001
+From: Mathias <mk@blackbird.online>
+Date: Wed, 8 Mar 2023 12:23:46 +0100
+Subject: [PATCH] Debug serial comm
+
+---
+ project.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/project.h b/project.h
+index adcf1cb..d2646b5 100644
+--- a/project.h
++++ b/project.h
+@@ -76,7 +76,7 @@
+ #define pr_info_drv(fmt, ...)
+ #endif
+ 
+-#if 0
++#if 1
+ #define DEBUG_SERIALCOMM
+ #define pr_info_serial(fmt, ...)	pr_info(fmt, ##__VA_ARGS__)
+ #define pr_info_serial2(fmt, ...)	pr_info(fmt, ##__VA_ARGS__)
+-- 
+2.39.1
+
